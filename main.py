@@ -4,14 +4,10 @@ import operator
 
 def main(string) -> str:
 
-    if len(string.split(' ')) == 37:
-
-        return 'Неверные входные данные'
-
-    else:
+    try:
 
         action = {
-            'plus': operator.add,
+            ('plus', 'added to ', 'coupled with', 'with the addition of'): operator.add,
             'minus': operator.sub,
             'divide': operator.truediv,
             'multiply': operator.mul,
@@ -23,6 +19,10 @@ def main(string) -> str:
         need_operator = None
 
         for i in list_of_words:
+
+            print(i in list(action.keys()))
+
+            print(list(action.keys()))
 
             if i in list(action.keys()):
 
@@ -47,3 +47,17 @@ def main(string) -> str:
 
         return action[actions](first_int_num, second_int_num)
 
+    except ValueError:
+
+        return 'Invalid input data'
+
+    except ZeroDivisionError:
+
+        return "Can't divide by zero"
+
+
+while True:
+
+    n = input()
+
+    print(main(n))
