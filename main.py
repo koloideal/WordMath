@@ -6,8 +6,16 @@ def main(string) -> str:
 
     try:
 
+        act = {
+            ('without', 'lacking', 'deprived_of', 'bereft_of', 'destitute_of', 'minus'): 'minus',
+            ('added_to', 'add', 'coupled_with', 'with_the_addition_of', 'plus'): 'plus',
+            ('separate', 'part', 'split', 'divide', 'divide_by'): 'divide',
+            ('extend', 'expand', 'spread', 'build_up', 'accumulate', 'augment', 'multiply', 'times'): 'multiply',
+            ('stage', 'extent', 'grade', 'proportion', 'gradation', 'to_the_power_of', 'degree'): 'degree'
+        }
+
         action = {
-            ('plus', 'added to ', 'coupled with', 'with the addition of'): operator.add,
+            'plus': operator.add,
             'minus': operator.sub,
             'divide': operator.truediv,
             'multiply': operator.mul,
@@ -18,22 +26,23 @@ def main(string) -> str:
 
         need_operator = None
 
+        need_ = None
+
         for i in list_of_words:
 
-            print(i in list(action.keys()))
+            for j in list(act.keys()):
 
-            print(list(action.keys()))
+                if i in j:
 
-            if i in list(action.keys()):
-
-                need_operator = i
+                    need_operator = act[j]
+                    need_ = i
 
             else:
 
                 continue
 
-        new_list_of_words = [' '.join(list_of_words[:list_of_words.index(need_operator)]),
-                             need_operator, ' '.join(list_of_words[list_of_words.index(need_operator) + 1:])]
+        new_list_of_words = [' '.join(list_of_words[:list_of_words.index(need_)]),
+                             need_operator, ' '.join(list_of_words[list_of_words.index(need_) + 1:])]
 
         first_num = new_list_of_words[0]
 
@@ -56,8 +65,18 @@ def main(string) -> str:
         return "Can't divide by zero"
 
 
+print('if you want to stop the code, enter "stop"\n')
+
 while True:
 
-    n = input()
+    line = input('Enter a string expression : ')
 
-    print(main(n))
+    if line == 'stop':
+
+        print('GoodBye')
+
+        break
+
+    else:
+
+        print(main(line))
