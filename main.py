@@ -2,11 +2,12 @@ from word2number import w2n
 import operator
 
 
-def main(string) -> str:
+def main(string: str) -> str:
 
     try:
 
         act = {
+
             ('without', 'lacking', 'deprived_of', 'bereft_of', 'destitute_of', 'minus'): 'minus',
             ('added_to', 'add', 'coupled_with', 'with_the_addition_of', 'plus'): 'plus',
             ('separate', 'part', 'split', 'divide', 'divide_by'): 'divide',
@@ -15,6 +16,7 @@ def main(string) -> str:
         }
 
         action = {
+
             'plus': operator.add,
             'minus': operator.sub,
             'divide': operator.truediv,
@@ -54,15 +56,15 @@ def main(string) -> str:
 
         second_int_num = w2n.word_to_num(second_num)
 
-        return action[actions](first_int_num, second_int_num)
+        return str(action[actions](first_int_num, second_int_num)) + '\n'
 
     except ValueError:
 
-        return 'Invalid input data'
+        return 'Invalid input data\n'
 
     except ZeroDivisionError:
 
-        return "Can't divide by zero"
+        return "Can't divide by zero\n"
 
 
 print('if you want to stop the code, enter "stop"\n')
