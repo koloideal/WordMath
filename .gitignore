@@ -1,1 +1,4 @@
 /.idea
+identifier.sqlite
+lang.db
+__pycache__/
