@@ -17,8 +17,7 @@ def helper() -> None:
 
             if line.lower() == "stop":
                 print("GoodBye")
-
-                break
+                return
 
             elif line.lower() in ["lang", "язык"]:
                 change_lang()
