@@ -1,8 +1,10 @@
+import os
 import sqlite3
 import socket
 
 
 def get_lang():
+    os.makedirs('users_languages', exist_ok=True)
     pc_name = socket.gethostname().strip().replace(" ", "_")
 
     connection = sqlite3.connect("lang.db")
