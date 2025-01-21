@@ -1,16 +1,16 @@
 from translate import Translator
-from func.get_lang import get_lang
-from func.word2num_math import word2num_math
-from func.change_lang import change_lang
+from lang_func.get_lang import get_lang
+from main_func.word2num_math import word2num_math
+from main_func.change_lang import change_lang
 
 
-def helper() -> None:
-    lang = get_lang()
+def start_word2math() -> None:
+    language: str = get_lang()
 
-    if lang == "en":
+    if language == "en":
         print('\nif you want to stop the code, enter "stop"')
         print("Supported languages: ru and en")
-        print(f'if you want to change language, enter "lang" or "язык", current language - {lang}\n')
+        print(f'if you want to change language, enter "lang" or "язык", current language - {language}\n')
 
         while True:
             line = input("Enter a string expression : ")
@@ -21,7 +21,7 @@ def helper() -> None:
 
             elif line.lower() in ["lang", "язык"]:
                 change_lang()
-                helper()
+                start_word2math()
 
             else:
                 try:
@@ -31,10 +31,10 @@ def helper() -> None:
                 except ValueError:
                     print("An unacceptably large result\n")
 
-    elif lang == "ru":
+    elif language == "ru":
         print('\nЕсли хотите закончить - введите "стоп"')
         print("Поддерживаемые языки: ru и en")
-        print(f'Если хотите изменить язык - введите "язык" или "lang", текущий язык - {lang}\n')
+        print(f'Если хотите изменить язык - введите "язык" или "lang", текущий язык - {language}\n')
 
         while True:
             line = input("Введите строковое выражение : ")
@@ -45,7 +45,7 @@ def helper() -> None:
 
             elif line.lower() in ["язык", "lang"]:
                 change_lang()
-                helper()
+                start_word2math()
 
             else:
                 try:

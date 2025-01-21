@@ -1,4 +1,4 @@
-/.idea
-identifier.sqlite
-lang.db
+.idea
 __pycache__/
+local_data
+tesst.py
