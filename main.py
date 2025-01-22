@@ -1,6 +1,6 @@
 import socket
 from typing import Callable
-from lang_func.init_user_lang import init_user_lang
+from local_data_func.init_user_lang import init_user_lang
 from main_func.start_word2math import start_word2math
 from art import text2art
 from rich.console import Console

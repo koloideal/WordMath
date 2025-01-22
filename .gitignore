@@ -1,4 +1,4 @@
 .idea
 __pycache__/
-local_data
+local_data/config.json
 tesst.py
