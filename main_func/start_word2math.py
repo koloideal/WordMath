@@ -1,7 +1,7 @@
 from translate import Translator
 from lang_func.get_lang import get_lang
 from main_func.word2num_math import word2num_math
-from main_func.change_lang import change_lang
+from lang_func.change_lang import change_lang
 
 
 def start_word2math() -> None:
