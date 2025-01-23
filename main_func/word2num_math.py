@@ -1,10 +1,10 @@
+from numpy import ndarray
 from word2number import w2n
-import operator
 from local_data_func.get_operator_synonyms import get_operator_synonyms
+import numexpr
 
 
-def word2num_math(string: str) -> str:
-    print(string)
+def word2num_math(string: str) -> ndarray | ZeroDivisionError | OverflowError:
     operator_synonyms: dict[str, list[str]] = get_operator_synonyms()
 
     def variables_to_operator(synonym):
@@ -13,65 +13,53 @@ def word2num_math(string: str) -> str:
                 return key
 
     action = {
-        "plus": operator.add,
-        "minus": operator.sub,
-        "divide": operator.truediv,
-        "multiply": operator.mul,
-        "degree": operator.pow,
+        "plus": '+',
+        "minus": '-',
+        "divide": '/',
+        "multiply": '*',
+        "degree": '**',
     }
 
-    process_list = []
+    result_string: str = ''
     all_variables_of_operators: list[str] = [x for l in operator_synonyms.values() for x in l]
     operators = {}
 
     while True:
         is_clear = True
         number_of_operator = 1
-        for ope in all_variables_of_operators:
+        for word in string.split():
             try:
-                ope_index = string.index(ope)
-                if ope_index in operators.keys():
-                    is_clear = True
-                    break
+                if word in all_variables_of_operators:
+                    ope_index = string.index(word)
+                    if ope_index in operators.keys():
+                        is_clear = True
+                        break
+                else:
+                    raise ValueError
             except ValueError:
                 continue
             else:
                 is_clear = False
-                operators[number_of_operator] = variables_to_operator(ope)
+                operators[number_of_operator] = variables_to_operator(word)
                 number_of_operator += 1
-                string = string.replace(ope, "&&", 1)
+                string = string.replace(word, "&&", 1)
         if is_clear:
             break
-    print(string)
-    print(operators.items())
-    total = string.split("&&")
-    for k, v in operators.items():
-        total.insert(k, v)
 
-    print(' '.join(total))
+    num_of_ope = 1
+    for number in string.split("&&"):
+        int_num = w2n.word_to_num(number.strip())
+        if num_of_ope in operators.keys():
+            result_string += f'{int_num} {action[operators[num_of_ope]]} '
+            num_of_ope += 1
+        else:
+            result_string += f'{int_num}'
 
-
-
-
-
-'''    new_list_of_words = [
-        " ".join(list_of_words[: list_of_words.index(need_)]),
-        need_operator,
-        " ".join(list_of_words[list_of_words.index(need_) + 1 :]),
-    ]
-
-    first_num = new_list_of_words[0]
-    first_int_num = w2n.word_to_num(first_num)
-
-    actions = new_list_of_words[1]
-
-    second_num = new_list_of_words[2]
-    second_int_num = w2n.word_to_num(second_num)
-
-    return action[actions](first_int_num, second_int_num)'''
-
-'''    except ValueError:
-        return "Invalid input data\n"
-
+    try:
+        result = numexpr.evaluate(result_string)
     except ZeroDivisionError:
-        return "Can't divide by zero\n"'''
+        return ZeroDivisionError('Except divide by zero')
+    except OverflowError:
+        return OverflowError('Too big result')
+    else:
+        return result
