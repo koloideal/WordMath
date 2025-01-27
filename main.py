@@ -1,7 +1,7 @@
 import socket
 from typing import Callable
 from local_data_func.init_user_lang import init_user_lang
-from main_func.start_word2math import start_word2math
+from main_func.action_selection import action_selection
 from art import text2art
 from rich.console import Console
 
@@ -15,6 +15,7 @@ def main():
 
     text = text2art('WordMath', font='varsity')
     console.print(f'[bold blue]{text}[/bold blue]')
+
     work_points: Callable = lambda m, x: console.print(f'[bold red][{m}][/bold red] [blue]*=*=*[/blue] [bold yellow italic]{x}[/bold yellow italic]')
     work_points(0, 'Get Help')
     work_points(1, 'Start Solving')
@@ -23,7 +24,7 @@ def main():
     settings_points('L', 'Change Language')
     settings_points('Q', 'Quit')
 
-    # start_word2math()
+    action_selection()
 
 if __name__ == "__main__":
     main()
