@@ -48,7 +48,10 @@ def word2num_math(string: str) -> ndarray | ZeroDivisionError | OverflowError:
 
     num_of_ope = 1
     for number in string.split("&&"):
-        int_num = w2n.word_to_num(number.strip())
+        try:
+            int_num = w2n.word_to_num(number.strip())
+        except ValueError:
+            return ValueError("Invalid input expression")
         if num_of_ope in operators.keys():
             result_string += f'{int_num} {action[operators[num_of_ope]]} '
             num_of_ope += 1

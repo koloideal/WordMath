@@ -18,25 +18,26 @@ def action_selection():
         settings_points('U', 'Update WordMath')
         settings_points('Q', 'Quit')
 
-        console.print("\n[italic]What do you want to do(enter number of action)?[/italic]")
+        console.print("\n[italic white bold]What do you want to do(enter number of action)? [/italic white bold]")
         action = input()
         if not action.lower() in ['0', '1', 'u', 'q']:
-            console.print("[red bold]Please enter a valid meaning[/red bold]")
+            console.print("[red bold]\nEnter a valid meaning[/red bold]")
         else:
             match action.lower():
                 case '0':
                     print('help')
                 case '1':
                     while True:
-                        string_expression = input("\nPlease enter a string expression or q for exit:\n")
+                        console.print("\n[italic]Enter a string expression or [bold italic green] Q [/bold italic green] for exit:[/italic]")
+                        string_expression = input()
                         if string_expression.lower() == 'q':
                             break
                         else:
                             console.print(f'[bold blue]{word2num_math(string_expression)}[/bold blue]')
                 case 'q':
-                    console.print('[bold red]GoodBye[/bold red]')
+                    console.print('[bold red]\nGoodBye\n[/bold red]')
                     break
-        print('\n\n')
+        print('\n--------------------------------------\n')
 
 
 
