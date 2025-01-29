@@ -1,6 +1,8 @@
 from typing import Callable
+import requests
 from rich.console import Console
 from main_func.word2num_math import word2num_math
+from main_func.update_script import UpdateScript
 
 
 console = Console()
@@ -37,6 +39,16 @@ def action_selection():
                 case 'q':
                     console.print('[bold red]\nGoodBye\n[/bold red]')
                     break
+                case 'u':
+                    if requests.get('https://ya.ru').ok:
+                        is_upgrade = UpdateScript.start_update()
+                        if is_upgrade:
+                            exit(0)
+                        else:
+                            console.print('[bold red]No internet connection[/bold red]')
+                    else:
+                        console.print('[bold red]You have the latest version installed[/bold red]')
+
         print('\n--------------------------------------\n')
 
 

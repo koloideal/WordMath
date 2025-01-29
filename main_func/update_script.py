@@ -1,49 +1,64 @@
 import os
+import shutil
 from io import BytesIO
 from zipfile import ZipFile
 import requests
 from local_data_func.get_script_release_tag import get_script_tag
 
 
-GITHUB_REPO = "https://api.github.com/repos/koloideal/WordMath"
+class UpdateScript:
 
+    GITHUB_REPO = "https://api.github.com/repos/koloideal/WordMath"
 
-def get_latest_release() -> dict | bool:
-    try:
-        response = requests.get(f"{GITHUB_REPO}/releases/latest")
+    @staticmethod
+    def get_latest_release() -> dict:
+        response = requests.get(f"{UpdateScript.GITHUB_REPO}/releases/latest")
         data = response.json()
         return {'tag': data['tag_name'],
                 'url': data['zipball_url']}
-    except requests.RequestException:
-        return False
 
 
-def update_script(zip_url):
-    try:
+    @staticmethod
+    def download_new_release(zip_url):
         response = requests.get(zip_url)
         response.raise_for_status()
 
         with ZipFile(BytesIO(response.content)) as zip_file:
-            zip_file.extractall("update_temp")
+            zip_file.extractall("new_release")
 
-        for root, dirs, files in os.walk("update_temp"):
-            for file in files:
-                if file.endswith(".py"):
-                    source_path = os.path.join(root, file)
-                    destination_path = os.path.join(os.getcwd(), file)
-                    print(source_path)
-                    print(destination_path)
-                    # os.replace(source_path, destination_path)
-        '''
-        for root, dirs, files in os.walk("update_temp", topdown=False):
-            for file in files:
-                os.remove(os.path.join(root, file))
-            for dir in dirs:
-                os.rmdir(os.path.join(root, dir))
-        os.rmdir("update_temp")'''
 
-        print("Скрипт успешно обновлен!")
-    except Exception as e:
-        print(f"Ошибка при обновлении: {e}")
+    @staticmethod
+    def upgrade_script():
+        excluded_files = ['venv', '.venv', '.git', 'new_release']
+        for obj in os.listdir():
+            if obj not in excluded_files:
+                if os.path.isfile(obj):
+                    os.remove(obj)
+                elif os.path.isdir(obj):
+                    shutil.rmtree(obj)
+
+        new_release = os.listdir('new_release')
+        new_release_name = new_release[0] if new_release[0].startswith('koloideal-WordMath') else None
+        path = f'new_release/{new_release_name}'
+        all_files = os.listdir(path)
+        for file in all_files:
+            shutil.move(path + '/' + file, './' + file)
+
+        shutil.rmtree('new_release')
+
+
+    @staticmethod
+    def start_update() -> bool:
+        existing_release_tag: str = get_script_tag()
+        latest_release: dict = UpdateScript.get_latest_release()
+        latest_release_tag = latest_release['tag']
+        latest_release_url = latest_release['url']
+
+        if latest_release_tag != existing_release_tag:
+            UpdateScript.download_new_release(latest_release_url)
+            UpdateScript.upgrade_script()
+            return True
+        else:
+            return False
 
 
