@@ -6,6 +6,7 @@ from main_func.update_script import UpdateScript
 
 
 console = Console()
+print_line_separator = lambda: print('\n--------------------------------------\n')
 
 
 def action_selection():
@@ -27,7 +28,9 @@ def action_selection():
         else:
             match action.lower():
                 case '0':
-                    print('help')
+                    print_line_separator()
+                    console.print("[italic bold]The main functionality of the script is to convert an expression from a string"
+                                  " to a mathematical one and then calculate this expression. Project GitHub: https://github.com/koloideal/WordMath[/italic bold]")
                 case '1':
                     while True:
                         console.print("\n[italic]Enter a string expression or [bold italic green] Q [/bold italic green] for exit:[/italic]")
@@ -35,22 +38,27 @@ def action_selection():
                         if string_expression.lower() == 'q':
                             break
                         else:
-                            console.print(f'[bold blue]{word2num_math(string_expression)}[/bold blue]')
+                            print_line_separator()
+                            console.print(
+                                f'[bold green]Answer:[/bold green]  [bold blue]{word2num_math(string_expression)}[/bold blue]')
+                            print_line_separator()
                 case 'q':
                     console.print('[bold red]\nGoodBye\n[/bold red]')
                     break
                 case 'u':
-                    if requests.get('https://ya.ru').ok:
+                    try:
+                        requests.get('https://ya.ru')
+                    except requests.exceptions.ConnectionError:
+                        print_line_separator()
+                        console.print('[bold red]No internet connection[/bold red]')
+                    else:
                         is_upgrade = UpdateScript.start_update()
                         if is_upgrade:
                             exit(0)
                         else:
-                            console.print('[bold red]No internet connection[/bold red]')
-                    else:
-                        console.print('[bold red]You have the latest version installed[/bold red]')
+                            print_line_separator()
+                            console.print('[bold red]You have the latest version installed[/bold red]')
 
-        print('\n--------------------------------------\n')
-
-
+        print_line_separator()
 
 
