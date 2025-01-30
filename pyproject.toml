@@ -1,7 +1,7 @@
 [project]
 name = "wordmath"
-version = "0.1.0"
-description = ""
+version = "3.0.0"
+description = "The main functionality of the script is to convert an expression from a string to a mathematical one and then calculate this expression"
 authors = [
     {name = "kolo"}
 ]
@@ -12,7 +12,8 @@ dependencies = [
     "word2number (>=1.1,<2.0)",
     "numexpr (>=2.10.2,<3.0.0)",
     "rich (>=13.9.4,<14.0.0)",
-    "art (>=6.4,<7.0)"
+    "art (>=6.4,<7.0)",
+    "requests (>=2.32.3,<3.0.0)"
 ]
 
 
@@ -22,6 +23,4 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.9.2"
-requests = "^2.32.3"
-bs4 = "^0.0.2"
 
