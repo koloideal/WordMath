@@ -1,9 +1,10 @@
 import os
 import shutil
-from io import BytesIO
+import time
 from zipfile import ZipFile
 import requests
 from local_data_func.get_script_release_tag import get_script_tag
+from tqdm import tqdm
 
 
 class UpdateScript:
@@ -20,10 +21,20 @@ class UpdateScript:
 
     @staticmethod
     def download_new_release(zip_url):
-        response = requests.get(zip_url)
+        response = requests.get(zip_url, stream=True)
         response.raise_for_status()
 
-        with ZipFile(BytesIO(response.content)) as zip_file:
+        total_size = int(response.headers.get("content-length", 0))
+        block_size = 256
+
+        with tqdm(total=total_size, unit="B", unit_scale=True) as progress_bar:
+            with open('new_release.zip', "wb") as file:
+                for data in response.iter_content(block_size):
+                    progress_bar.update(len(data))
+                    file.write(data)
+                    time.sleep(0.7)
+
+        with ZipFile('new_release.zip') as zip_file:
             zip_file.extractall("new_release")
 
 
@@ -57,7 +68,7 @@ class UpdateScript:
         if latest_release_tag != existing_release_tag:
             UpdateScript.download_new_release(latest_release_url)
             UpdateScript.upgrade_script()
-            return True
+            return latest_release_tag
         else:
             return False
 

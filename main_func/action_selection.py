@@ -7,7 +7,7 @@ from art import text2art
 
 
 console = Console()
-print_line_separator = lambda: print('\n--------------------------------------\n')
+print_line_separator = lambda: console.print('\n[bold blue]--------------------------------------[/bold blue]\n')
 
 
 def action_selection():
@@ -55,8 +55,13 @@ def action_selection():
                         print_line_separator()
                         console.print('[bold red]No internet connection[/bold red]')
                     else:
-                        is_upgrade = UpdateScript.start_update()
-                        if is_upgrade:
+                        latest_tag = UpdateScript.start_update()
+                        if latest_tag:
+                            print_line_separator()
+                            console.print(f"[bold green]The newest version ({latest_tag}) of the script has been successfully installed![/bold green]")
+                            print_line_separator()
+                            console.print("[bold green]Rerun the script for the changes to take effect[/bold green]")
+                            print_line_separator()
                             exit(0)
                         else:
                             print_line_separator()
