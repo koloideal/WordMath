@@ -7,8 +7,8 @@ console = Console()
 
 
 def main():
-    text: str = text2art('WordMath', font='varsity')
-    console.print(f'[bold blue]{text}[/bold blue]')
+    text: str = text2art('WordMath', font='nancyj')
+    console.print(f'[bold blue]\n\n{text}[/bold blue]')
 
     action_selection()
 

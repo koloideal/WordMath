@@ -3,6 +3,7 @@ import requests
 from rich.console import Console
 from main_func.word2num_math import word2num_math
 from main_func.update_script import UpdateScript
+from art import text2art
 
 
 console = Console()
@@ -24,7 +25,8 @@ def action_selection():
         console.print("\n[italic white bold]What do you want to do(enter number of action)? [/italic white bold]")
         action = input()
         if not action.lower() in ['0', '1', 'u', 'q']:
-            console.print("[red bold]\nEnter a valid meaning[/red bold]")
+            print_line_separator()
+            console.print("[red bold]Enter a valid meaning[/red bold]")
         else:
             match action.lower():
                 case '0':
@@ -43,7 +45,8 @@ def action_selection():
                                 f'[bold green]Answer:[/bold green]  [bold blue]{word2num_math(string_expression)}[/bold blue]')
                             print_line_separator()
                 case 'q':
-                    console.print('[bold red]\nGoodBye\n[/bold red]')
+                    text = text2art("GoodBye", font="small")
+                    console.print(f'[bold red]\n{text}{' '*12}made by kolo\n[/bold red]')
                     break
                 case 'u':
                     try:
