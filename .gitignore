@@ -1,5 +1,4 @@
 .idea
 __pycache__/
 local_data/config.json
-tesst.py
 new_release
