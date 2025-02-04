@@ -5,11 +5,6 @@ from zipfile import ZipFile
 import requests
 from src.app.local_data_func.get_script_release_tag import get_script_tag
 from tqdm import tqdm
-from rich.console import Console
-
-
-console = Console()
-print_line_separator = lambda: console.print('\n[bold blue]--------------------------------------[/bold blue]\n')
 
 
 class UpdateScript:
@@ -31,8 +26,6 @@ class UpdateScript:
 
         total_size = int(response.headers.get("content-length", 0))
         block_size = 1024
-
-        print_line_separator()
 
         with tqdm(total=total_size, unit="B", unit_scale=True) as progress_bar:
             with open('new_release.zip', "wb") as file:

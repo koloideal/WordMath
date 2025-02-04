@@ -1,6 +1,6 @@
 from functools import wraps
 from typing import Callable
-from src.core.router.exceptions import *
+from src.core.router.exceptions import InvalidCommandInstanceException, UnknownCommandHandlerHasAlreadyBeenCreatedException
 
 
 class Router:
