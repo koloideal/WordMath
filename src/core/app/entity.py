@@ -1,6 +1,6 @@
 from typing import Callable
-from src.core.router.router_entity import Router
-from src.core.app.app_exceptions import InvalidRouterInstanceException
+from src.core.router.entity import Router
+from src.core.app.exceptions import InvalidRouterInstanceException
 
 
 class App:
@@ -35,8 +35,8 @@ class App:
                 router.input_command_handler(command)
 
 
-    def include_route(self, route):
-        if not isinstance(route, Router):
+    def include_route(self, router):
+        if not isinstance(router, Router):
             raise InvalidRouterInstanceException()
-        self.routers.append(route)
+        self.routers.append(router)
 

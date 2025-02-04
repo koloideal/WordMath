@@ -1,6 +1,6 @@
 from numpy import ndarray
 from word2number import w2n
-from local_data_func.get_operator_synonyms import get_operator_synonyms
+from src.app.local_data_func.get_operator_synonyms import get_operator_synonyms
 import numexpr
 
 
