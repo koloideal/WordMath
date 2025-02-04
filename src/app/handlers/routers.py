@@ -7,16 +7,10 @@ app: App = App()
 
 
 @router.command('u')
-def command_u():
-    print('eeeeeee')
+def command_update():
+    print('Script Update')
 
 
 @router.unknown_command
 def command_unknown_command(command):
-    print('dfvrgbrgndsrgngfn')
-
-
-
-app.include_route(router)
-
-app.start_polling()
+    print('Unknown command')
