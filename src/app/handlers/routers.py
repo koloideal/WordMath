@@ -1,3 +1,5 @@
+from rich.console import Console
+
 from src.core.router.entity import Router
 from src.core.app.entity import App
 
@@ -11,6 +13,8 @@ work_router: Router = Router(name='Work points:',
 settings_router: Router = Router(name='Settings points:',
                                  ignore_command_register=True)
 app: App = App()
+
+console = Console()
 
 
 @work_router.command(command='0',
@@ -33,4 +37,4 @@ def command_update():
 
 @work_router.unknown_command
 def command_unknown_command(command):
-    print(f'Unknown command: {command}')
+    console.print(f'[bold red]Unknown command: [/bold red]{command}')

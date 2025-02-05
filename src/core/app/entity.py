@@ -3,7 +3,8 @@ from ..router.entity import Router
 from .exceptions import (InvalidRouterInstanceException,
                          InvalidDescriptionMessagePatternException,
                          OnlyOneMainRouterIsAllowedException,
-                         MissingMainRouterException)
+                         MissingMainRouterException,
+                         MissingHandlersForUnknownCommandsOnMainRouterException)
 
 
 class App:
@@ -35,6 +36,9 @@ class App:
         if not self.main_app_router:
             raise MissingMainRouterException()
 
+        if not self.main_app_router.unknown_command_func:
+            raise MissingHandlersForUnknownCommandsOnMainRouterException()
+
         all_registered_commands = []
         for router in self.registered_commands:
             for command_entity in router['commands']:
@@ -64,13 +68,20 @@ class App:
             if self.main_app_router.ignore_command_register:
                 if command.lower() not in list(map(lambda x: x.lower(), all_registered_commands)):
                     self.main_app_router.unknown_command_handler(command)
+                    self.print_func(self.line_separate)
+                    self.print_func(self.command_group_description_separate)
+                    continue
             else:
                 if command not in all_registered_commands:
                     self.main_app_router.unknown_command_handler(command)
+                    self.print_func(self.line_separate)
+                    self.print_func(self.command_group_description_separate)
+                    continue
 
             for router in self.routers:
                 router.input_command_handler(command)
             self.print_func(self.line_separate)
+            self.print_func(self.command_group_description_separate)
 
 
     def set_initial_greeting(self, greeting: str) -> None:
