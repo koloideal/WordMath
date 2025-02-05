@@ -35,12 +35,13 @@ class Router:
     def unknown_command(self, func):
         if self.unknown_command_func is not None:
             raise UnknownCommandHandlerHasAlreadyBeenCreatedException()
-        else:
-            self.unknown_command_func = func
-            @wraps(func)
-            def wrapper(*args, **kwargs):
-                return func(*args, **kwargs)
-            return wrapper
+
+        self.unknown_command_func = func
+
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            return func(*args, **kwargs)
+        return wrapper
 
     def input_command_handler(self, input_command):
         for command_entity in self.processed_commands:

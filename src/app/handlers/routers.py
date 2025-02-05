@@ -17,20 +17,17 @@ app: App = App()
 console = Console()
 
 
-@work_router.command(command='0',
-                     description='Get Help')
+@work_router.command(command='0', description='Get Help')
 def command_help():
     help_command()
 
 
-@work_router.command(command='1',
-                     description='Start Solving')
+@work_router.command(command='1', description='Start Solving')
 def command_start_solving():
     start_solving_command()
 
 
-@settings_router.command(command='U',
-                         description='Update WordMath')
+@settings_router.command(command='U', description='Update WordMath')
 def command_update():
     upgrade_command()
 

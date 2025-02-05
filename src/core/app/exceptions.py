@@ -32,3 +32,8 @@ class MissingHandlersForUnknownCommandsOnMainRouterException(Exception):
     def __str__(self):
         return ("Missing Handlers For Unknown Commands On The Main Router\n"
                 "The main router must have a declared handler for unknown commands")
+
+
+class HandlerForUnknownCommandsCanOnlyBeDeclaredForMainRouterException(Exception):
+    def __str__(self):
+        return '\nThe handler for unknown commands can only be declared for the main router'

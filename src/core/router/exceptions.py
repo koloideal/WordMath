@@ -10,4 +10,4 @@ class InvalidDescriptionInstanceException(Exception):
 
 class UnknownCommandHandlerHasAlreadyBeenCreatedException(Exception):
     def __str__(self):
-        return "Unknown Command Handler has already been created"
+        return "Only one unknown command handler can be declared"
