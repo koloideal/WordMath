@@ -6,25 +6,31 @@ from src.app.handlers.handlers_implementation.solving_command import start_solvi
 from src.app.handlers.handlers_implementation.upgrade_command import upgrade_command
 
 
-router: Router = Router(ignore_command_register=True)
+work_router: Router = Router(name='Work points:',
+                             ignore_command_register=True)
+settings_router: Router = Router(name='Settings points:',
+                                 ignore_command_register=True)
 app: App = App()
 
 
-@router.command('u')
-def command_update():
-    upgrade_command()
-
-
-@router.command('0')
+@work_router.command(command='0',
+                     description='Get Help')
 def command_help():
     help_command()
 
 
-@router.command('1')
+@work_router.command(command='1',
+                     description='Start Solving')
 def command_start_solving():
     start_solving_command()
 
 
-@router.unknown_command
+@settings_router.command(command='U',
+                         description='Update WordMath')
+def command_update():
+    upgrade_command()
+
+
+@work_router.unknown_command
 def command_unknown_command(command):
     print(f'Unknown command: {command}')
