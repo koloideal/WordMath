@@ -14,6 +14,7 @@ class Router:
         self.ignore_command_register: bool = ignore_command_register
         self._name = name
         self.unknown_command_func: Callable[[str], None] | None = None
+        self._is_main_router: bool = False
 
     def command(self, command: str, description: str) -> Callable[[Any], Any]:
         if not isinstance(command, str):
@@ -49,8 +50,12 @@ class Router:
                 else:
                     if input_command == command_entity['command']:
                         return command_entity['func']()
-        if self.unknown_command_func:
-            return self.unknown_command_func(input_command)
+
+    def unknown_command_handler(self, unknown_command):
+        self.unknown_command_func(unknown_command)
+
+    def set_router_as_main(self):
+        self._is_main_router = True
 
     def get_registered_commands(self) -> list[dict[str, Callable[[], None] | str]]:
         return self.processed_commands

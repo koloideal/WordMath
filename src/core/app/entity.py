@@ -1,6 +1,9 @@
 from typing import Callable
 from ..router.entity import Router
-from .exceptions import InvalidRouterInstanceException, InvalidDescriptionMessagePatternException
+from .exceptions import (InvalidRouterInstanceException,
+                         InvalidDescriptionMessagePatternException,
+                         OnlyOneMainRouterIsAllowedException,
+                         MissingMainRouterException)
 
 
 class App:
@@ -23,10 +26,20 @@ class App:
         self.initial_greeting = initial_greeting
         self.line_separate = line_separate
         self.command_group_description_separate = command_group_description_separate
+        self.main_app_router: Router | None = None
         self._description_message_pattern = '[{command}] *=*=* {description}'
 
     def start_polling(self) -> None:
         self.print_func(self.initial_greeting)
+
+        if not self.main_app_router:
+            raise MissingMainRouterException()
+
+        all_registered_commands = []
+        for router in self.registered_commands:
+            for command_entity in router['commands']:
+                all_registered_commands.append(command_entity['command'])
+
         while True:
             for router in self.registered_commands:
                 self.print_func(router['name'])
@@ -48,6 +61,12 @@ class App:
                         exit(0)
 
             self.print_func(self.line_separate)
+            if self.main_app_router.ignore_command_register:
+                if command.lower() not in list(map(lambda x: x.lower(), all_registered_commands)):
+                    self.main_app_router.unknown_command_handler(command)
+            else:
+                if command not in all_registered_commands:
+                    self.main_app_router.unknown_command_handler(command)
 
             for router in self.routers:
                 router.input_command_handler(command)
@@ -70,9 +89,17 @@ class App:
         self._description_message_pattern = pattern
 
 
-    def include_router(self, router: Router) -> None:
+    def include_router(self, router: Router, is_main: bool = False) -> None:
         if not isinstance(router, Router):
             raise InvalidRouterInstanceException()
+
+        if is_main:
+            if not self.main_app_router:
+                self.main_app_router = router
+                router.set_router_as_main()
+            else:
+                raise OnlyOneMainRouterIsAllowedException(router)
+
         self.routers.append(router)
 
         registered_commands: list[dict[str, Callable[[], None] | str]] = router.get_registered_commands()

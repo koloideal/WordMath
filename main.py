@@ -16,7 +16,7 @@ def main():
     ascii_goodbye_message: str = text2art('GoodBye', font='small')
     goodbye_message: str = f'[bold red]\n{ascii_goodbye_message}{' '*12}made by kolo\n[/bold red]'
 
-    app.include_router(work_router)
+    app.include_router(work_router, is_main=True)
     app.include_router(settings_router)
 
     app.set_initial_greeting(initial_greeting)
