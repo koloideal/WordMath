@@ -5,7 +5,7 @@ from rich.console import Console
 
 
 app: App = App(prompt='[italic white bold]What do you want to do(enter number of action)?',
-               line_separate='[bold green]\n--------------------------------------\n',
+               line_separate='[bold green]\n---------------------------------------------\n',
                print_func=Console().print,
                command_group_description_separate='')
 

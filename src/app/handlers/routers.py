@@ -11,7 +11,7 @@ from src.app.handlers.handlers_implementation.upgrade_command import upgrade_com
 work_router: Router = Router(name='Work points:',
                              ignore_command_register=False)
 settings_router: Router = Router(name='Settings points:',
-                                 ignore_command_register=False)
+                                 ignore_command_register=True)
 app: App = App()
 
 console = Console()

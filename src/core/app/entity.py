@@ -18,8 +18,6 @@ class App:
                  line_separate: str = '\n',
                  command_group_description_separate: str = '\n',
                  print_func: Callable[[str], None] = print) -> None:
-        self.routers: list[Router] = []
-        self.registered_commands: list[dict[str, str | list[dict[str, Callable[[], None] | str]] | Router]] = []
         self.prompt = prompt
         self.print_func = print_func
         self.exit_command = exit_command
@@ -28,6 +26,9 @@ class App:
         self.initial_greeting = initial_greeting
         self.line_separate = line_separate
         self.command_group_description_separate = command_group_description_separate
+
+        self.routers: list[Router] = []
+        self.registered_commands: list[dict[str, str | list[dict[str, Callable[[], None] | str]] | Router]] = []
         self.main_app_router: Router | None = None
         self._description_message_pattern = '[{command}] *=*=* {description}'
 
