@@ -1,6 +1,6 @@
 [project]
 name = "wordmath"
-version = "3.0.0"
+version = "3.0.1"
 description = "The main functionality of the script is to convert an expression from a string to a mathematical one and then calculate this expression"
 authors = [
     {name = "kolo"}

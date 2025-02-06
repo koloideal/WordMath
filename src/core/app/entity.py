@@ -19,7 +19,7 @@ class App:
                  command_group_description_separate: str = '\n',
                  print_func: Callable[[str], None] = print) -> None:
         self.routers: list[Router] = []
-        self.registered_commands: list[dict[str, str | list[dict[str, Callable[[], None] | str]]]] = []
+        self.registered_commands: list[dict[str, str | list[dict[str, Callable[[], None] | str]] | Router]] = []
         self.prompt = prompt
         self.print_func = print_func
         self.exit_command = exit_command
@@ -97,20 +97,19 @@ class App:
 
 
     def check_is_command_unknown(self, command: str):
-        all_registered_commands = self.get_all_registered_commands()
-
-        if self.main_app_router.ignore_command_register:
-            if command.lower() not in list(map(lambda x: x.lower(), all_registered_commands)):
-                self.main_app_router.unknown_command_handler(command)
-                self.print_func(self.line_separate)
-                self.print_func(self.command_group_description_separate)
-                return True
-        else:
-            if command not in all_registered_commands:
-                self.main_app_router.unknown_command_handler(command)
-                self.print_func(self.line_separate)
-                self.print_func(self.command_group_description_separate)
-                return True
+        registered_commands = self.registered_commands
+        for router in registered_commands:
+            for command_entity in router['commands']:
+                if command_entity['command'].lower() == command.lower():
+                    if router['router'].ignore_command_register:
+                        return False
+                    else:
+                        if command_entity['command'] == command:
+                            return False
+        self.main_app_router.unknown_command_handler(command)
+        self.print_func(self.line_separate)
+        self.print_func(self.command_group_description_separate)
+        return True
 
 
     def print_command_group_description(self):
@@ -118,19 +117,11 @@ class App:
             self.print_func(router['name'])
             for command_entity in router['commands']:
                 self.print_func(self._description_message_pattern.format(
-                    command=command_entity['command'],
-                    description=command_entity['description'])
+                        command=command_entity['command'],
+                        description=command_entity['description']
+                    )
                 )
             self.print_func(self.command_group_description_separate)
-
-
-    def get_all_registered_commands(self) -> list[str]:
-        all_registered_commands = []
-        for router in self.registered_commands:
-            for command_entity in router['commands']:
-                all_registered_commands.append(command_entity['command'])
-
-        return all_registered_commands
 
 
     def include_router(self, router: Router, is_main: bool = False) -> None:
@@ -148,5 +139,6 @@ class App:
 
         registered_commands: list[dict[str, Callable[[], None] | str]] = router.get_registered_commands()
         self.registered_commands.append({'name': router.get_name(),
+                                         'router': router,
                                          'commands': registered_commands})
 
