@@ -1,7 +1,5 @@
 from rich.console import Console
-
-from src.core.router.entity import Router
-from src.core.app.entity import App
+from argenta.router import Router
 
 from src.app.handlers.handlers_implementation.help_command import help_command
 from src.app.handlers.handlers_implementation.solving_command import start_solving_command
@@ -12,7 +10,6 @@ work_router: Router = Router(name='Work points:',
                              ignore_command_register=False)
 settings_router: Router = Router(name='Settings points:',
                                  ignore_command_register=True)
-app: App = App()
 
 console = Console()
 

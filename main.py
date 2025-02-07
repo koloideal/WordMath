@@ -1,5 +1,5 @@
 from src.app.handlers.routers import work_router, settings_router
-from src.core.app.entity import App
+from argenta.app.entity import App
 from art import text2art
 from rich.console import Console
 
