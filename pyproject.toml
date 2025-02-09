@@ -1,6 +1,6 @@
 [project]
 name = "wordmath"
-version = "4.1.1"
+version = "4.1.2"
 description = "The main functionality of the script is to convert an expression from a string to a mathematical one and then calculate this expression"
 authors = [
     {name = "kolo"}
@@ -15,7 +15,7 @@ dependencies = [
     "art (>=6.4,<7.0)",
     "requests (>=2.32.3,<3.0.0)",
     "tqdm (>=4.67.1,<5.0.0)",
-    "argenta (>=0.1.1,<0.2.0)"
+    "argenta (>=0.1.1,<2.0.0)"
 ]
 
 
