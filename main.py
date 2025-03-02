@@ -1,5 +1,5 @@
 from src.app.handlers.routers import work_router, settings_router
-from argenta.app.entity import App
+from argenta.app import App
 from art import text2art
 from rich.console import Console
 
@@ -18,13 +18,14 @@ def main():
     ascii_goodbye_message: str = text2art('GoodBye', font='small')
     farewell_message: str = f'[bold red]\n{ascii_goodbye_message}{' '*12}made by kolo\n'
 
-    app.include_router(work_router, is_main=True)
+    app.include_router(work_router)
     app.include_router(settings_router)
 
-    app.set_initial_greeting(initial_greeting)
+    app.set_initial_message(initial_greeting)
     app.set_farewell_message(farewell_message)
 
     app.set_description_message_pattern('[bold red][{command}][/bold red] [blue]*=*=*[/blue] [bold yellow italic]{description}')
+    app.set_unknown_command_handler(lambda command: Console().print(f'[bold red]Unknown command: [/bold red]{command}'))
 
     app.start_polling()
 
