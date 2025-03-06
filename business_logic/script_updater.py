@@ -60,7 +60,7 @@ class UpdateScript:
 
     @staticmethod
     def start_update() -> bool:
-        existing_release_tag: str = get_script_tag()
+        existing_release_tag: str = 'v' + get_script_tag()
         latest_release: dict = UpdateScript.get_latest_release()
         latest_release_tag = latest_release['tag']
         latest_release_url = latest_release['url']
