@@ -1,6 +1,6 @@
 import requests
 from rich.console import Console
-from src.app.business_logic.script_updater import UpdateScript
+from business_logic.script_updater import UpdateScript
 
 
 console = Console()

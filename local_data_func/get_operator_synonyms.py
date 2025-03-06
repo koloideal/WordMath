@@ -2,7 +2,7 @@ import json
 
 
 def get_operator_synonyms() -> dict[str, list[str]]:
-    with open("src/app/local_data/operator_synonyms.json", "r", encoding="utf-8") as file:
+    with open("local_data/operator_synonyms.json", "r", encoding="utf-8") as file:
         operator_synonyms: dict = json.load(file)
 
     return operator_synonyms

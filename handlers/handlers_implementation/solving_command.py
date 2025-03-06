@@ -1,5 +1,5 @@
 from rich.console import Console
-from src.app.business_logic.word2num_math import word2num_math
+from business_logic.word2num_math import word2num_math
 
 
 console = Console()

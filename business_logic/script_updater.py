@@ -3,7 +3,7 @@ import shutil
 import time
 from zipfile import ZipFile
 import requests
-from src.app.local_data_func.get_script_release_tag import get_script_tag
+from local_data_func.get_script_release_tag import get_script_tag
 from tqdm import tqdm
 
 
